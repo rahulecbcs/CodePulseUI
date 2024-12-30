@@ -1,0 +1,45 @@
+<div class="container">
+  <h1 class="mt-3">Category List</h1>
+  <div class="d-flex justify-content-end mt-3">
+    <a [routerLink]="['/admin/categories/add']" class="btn btn-primary"
+      >Add new category</a
+    >
+  </div>
+
+  <!-- ng containe bana lenge usme ngif daal denge matlb ki catogary me agr list raha toh table dikhao,
+   abb hame ngif me async pipe use krna hai=  | async 
+   Now, basically async pipe is subscribing on Observabale, it will emit value and change any HTML that is looking from observable.
+
+   abb observable ko use karne k lie, we have to store it as a variable. islie | async k baaad as keyword ka use kr k ek variable categories de diya,
+   ye ek temproray variable hoga jise hum sirf given ng container me hi use kr payenge
+   -->
+
+  <ng-container *ngIf="categories$ | async as categories">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Url Handle</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ngfor ka use loop k lie krte hai,  -->
+        <tr *ngFor="let item of categories">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.UrlHandle }}</td>
+          <!-- Edit link hoga har row me, [routerLink] me url and id pass kia, jahn edit k click pe jayega-->
+          <td>
+            <a
+              class="btn btn-light"
+              [routerLink]="['/admin/categories', item.id]"
+              >Edit</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</div>

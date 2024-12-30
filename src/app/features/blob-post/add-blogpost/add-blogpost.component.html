@@ -1,0 +1,94 @@
+<div class="container">
+ <h1 class="mt-3">Add BlobPost</h1>
+ <!-- #form ek variable banaya jo equal hai ngForm k, iske baad onSubmit(ngSubmit) method define kiya jo form submit hone par 
+  onFormSubmit() method pe jayega. (ngModel) ka use two way data binding k lie hua hai  -->
+ <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+    <div class="mt-2 mb-5">
+        <div class="mt-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" class="form-control" [(ngModel)]="model.title">
+        </div>
+
+        <div class="mt-3">
+            <label for="urlHandle" class="form-label">Url Handle</label>
+            <input type="text" id="urlHandle" name="urlHandle" class="form-control" [(ngModel)]="model.urlHandle">
+        </div>
+
+        <div class="mt-3">
+            <label for="shortDescription" class="form-label">Short Description</label>
+            <input type="text" id="shortDescription" name="shortDescription" class="form-control"  [(ngModel)]="model.shortDescription">
+        </div>
+
+        <div class="mt-3">
+            <label for="content" class="form-label">Content</label>
+
+            <div class="d-flex flex-row">
+                <div class="col-6 p-2">
+                    <textarea name="content" id="content" class="form-control" style="height: 350px; max-height: 350px;" [(ngModel)]="model.content"></textarea>
+                </div>
+                <div class="col-6 p-2" style="max-height: 350px; overflow-y: scroll;">
+                    <markdown [data]="model.content"></markdown>
+                </div>
+            </div>
+
+          <!-- <textarea name="content" id="content" class="form-control" [(ngModel)]="model.content"></textarea> -->
+            
+        </div>
+
+        <div class="mt-3">
+            <label for="featuredImageUrl" class="form-label">Featured Image Url</label>
+            <ng-container *ngIf="model.featuredImageUrl !==''">
+                <div >
+                    <img [src]="model.featuredImageUrl" height="100" class="my-2">
+                </div>
+            </ng-container>
+            <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control" [(ngModel)]="model.featuredImageUrl">
+        </div>
+
+        <div class="mt-3">
+            <label for="publishedDate" class="form-label">published Date</label>
+            <!-- [(ngModel)] iss se agar hum () hata diye [ngModel] toh ye one way data binding ban gaya, matlb sirf ye form se value lega.
+              value="{{model.publishedDate}}" - ye help karega form pe new Date() form pe initially dikhane me.
+              (ngModelChange)="model.publishedDate = $event"- jab v aap calender se date choose karoge tab ye model.publishedDate pe choosen date dalega   -->
+            <input type="date" id="publishedDate" name="publishedDate" class="form-control" value="{{model.publishedDate}}" [ngModel]="model.publishedDate | date : 'yyyy-MM-dd'"
+            (ngModelChange)="model.publishedDate = $event"
+            >
+        </div>
+
+        <div class="mt-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" id="author" name="author" class="form-control" [(ngModel)]="model.author">
+        </div>
+
+        <div class="form-check mt-3">
+            <!-- name="isVisible"- define karna pada nhi toh true default value nhi dikh raha tha-->
+            <input class="form-check-input" type="checkbox" id="isVisible" [(ngModel)]="model.isVisible" name="isVisible">
+            <label class="form-check-label" for="isVisible">
+                Is Visible?
+            </label>
+        </div>
+
+        <!--niche wali div multiselect dropdown k lie hai-->
+        <div class="mt-3">
+            <label for="categories" class="form-label">Categories</label>
+
+            <!-- categories$ ye ek list vairable hai yo hamari .ts wali file me bana rakha hai. usko '| async as' ka use kar k categories ek dusre variable me UI pe store krwa liya -->
+            <ng-container *ngIf="categories$ | async as categories">
+
+                <!-- agar select tag me multiple likh dete ho toh wo multiselect dropwdown ban jata hai. jo user ne dd me values select kiya hai usko model variable 
+                 k sath bind karne k liye ngModel ka use karna hoga -->
+                <select name="categories" id="categories" class="form-control" [(ngModel)]="model.categories" multiple>
+                    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                </select>
+            </ng-container>
+
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+
+    </div>
+ </form>
+
+</div>

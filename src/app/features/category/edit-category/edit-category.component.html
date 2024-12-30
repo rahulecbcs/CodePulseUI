@@ -1,0 +1,60 @@
+<div class="container">
+    <h1 class="mt-3">Edit Category</h1>
+
+    <!-- hum check kr lenge is agar uss id se koe Category nhi mila fir not found dikhayenge, agr mila response tab Form, iss tarah ka
+    check lagane k lie hum hamesa ng-container ka use karte hai.
+    notFound ek variable hai else part me. ye ng-template k under define hai. Matlab agar category nhi mila tab botFound wali variable run hoga
+    aur wo ng-template wali tag ko run kar dega, agar category mila fir ng-container.
+    -->
+    <ng-container *ngIf="category;else notFound">
+
+        <!-- #form ek variable hai, "ngForm" ye angular template form hai jise hum use kr rahe hai. After that
+        (ngSubmit) we have created method onFormSubmit() aur ye edit-category component me define hai. 
+        ngModel ka use two way data binding k lie hota hai  
+        -->
+        <form #form="ngForm" (ngSubmit)="onFormSubmit()">
+            <div class="mt-2">
+                <div class="mt-3">
+                    <label class="form-label" for="categoryId"> Category Id</label>
+                <!-- name attribute important yahi help karta hai locate karne me, ng form ko -->
+                    <input type="text" disabled id="categoryId" class="form-control" name="categoryId" value="{{category.id}}">
+                </div>
+
+                <div class="mt-3">
+                    <label  class="form-label" for="categoryName"> Category Name</label>
+                <!-- name attribute important yahi help karta hai locate karne me, ng form ko -->
+                    <input type="text"  id="categoryName" class="form-control" name="categoryName" [(ngModel)]="category.name">
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label" for="categoryUrlHandle"> Category UrlHandle</label>
+                <!-- name attribute important yahi help karta hai locate karne me, ng form ko -->
+                    <input type="text"  id="categoryUrlHandle" class="form-control" name="categoryUrlHandle" [(ngModel)]="category.UrlHandle">
+                </div>
+
+                <div class="mt-3 d-flex">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                <!-- iss button ka type button hai, iska matlb ye sirf action ko execute krne me hoga form ko submit karne me nahi -->
+                    <button type="button" class="btn btn-danger ms-3" (click)="onDelete()" > delete</button>
+                </div>
+
+            </div>
+
+        </form>
+
+
+    </ng-container>
+   
+   
+   
+   
+   
+    <ng-template #notFound>
+
+        <div class="alert alert-warning" role="alert">
+            Category not found
+          </div>
+    </ng-template>
+
+
+</div>
